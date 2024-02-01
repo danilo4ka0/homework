@@ -6,7 +6,7 @@ def normalize_phone(phone_number):
 
     # Додаємо міжнародний код '+38' для українських номерів
     if cleaned_number.startswith('380'):
-        cleaned_number = '+38' + cleaned_number[3:]
+        cleaned_number = '+38' + cleaned_number[2:]
     elif not cleaned_number.startswith('+'):
         # Якщо міжнародний код відсутній, додаємо код '+38'
         cleaned_number = '+38' + cleaned_number
