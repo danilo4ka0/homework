@@ -17,10 +17,12 @@ def normalize_phone(phone_number):
     phone_number = re.findall(extract_pattern, phone_number)
     phone_number = ''.join(phone_number)
 
-    if len(phone_number) == 12:
-        phone_number = "+" + phone_number
+    if len(phone_number) < 10:
+        phone_number = '+380' + phone_number
     elif len(phone_number) == 10:
         phone_number = '+38' + phone_number
+    elif len(phone_number) == 12:
+        phone_number = '+' + phone_number
 
     return phone_number
 
