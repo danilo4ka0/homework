@@ -1,19 +1,5 @@
 import re
 
-def normalize_phone(phone_number):
-    # Видаляємо всі символи, окрім цифр та '+'
-    cleaned_number = re.sub(r'[^0-9+]', '', phone_number)
-
-    # Додаємо міжнародний код '+38' для українських номерів
-    if cleaned_number.startswith('380'):
-        cleaned_number = '+38' + cleaned_number[2:]
-    elif not cleaned_number.startswith('+'):
-        # Якщо міжнародний код відсутній, додаємо код '+38'
-        cleaned_number = '+38' + cleaned_number
-
-    return cleaned_number
-
-# Приклад використання
 raw_numbers = [
     "067\\t123 4567",
     "(095) 234-5678\\n",
@@ -24,10 +10,19 @@ raw_numbers = [
     "(050)8889900",
     "38050-111-22-22",
     "38050 111 22 11   ",
-    "432 11 222 22 22",
-    "+123456789012"
 ]
+
+def normalize_phone(phone_number):
+    extract_pattern = r"[\d\+]+"
+    phone_number = re.findall(extract_pattern, phone_number)
+    phone_number = ''.join(phone_number)
+
+    if len(phone_number) == 12:
+        phone_number = "+" + phone_number
+    elif len(phone_number) == 10:
+        phone_number = '+38' + phone_number
+
+    return phone_number
 
 sanitized_numbers = [normalize_phone(num) for num in raw_numbers]
 print("Нормалізовані номери телефонів для SMS-розсилки:", sanitized_numbers)
-
